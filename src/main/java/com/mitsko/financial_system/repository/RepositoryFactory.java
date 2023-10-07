@@ -3,6 +3,7 @@ package com.mitsko.financial_system.repository;
 import com.mitsko.financial_system.repository.impl.AccountRepositoryImpl;
 import com.mitsko.financial_system.repository.impl.BankRepositoryImpl;
 import com.mitsko.financial_system.repository.impl.ClientRepositoryImpl;
+import com.mitsko.financial_system.repository.impl.TransactionRepositoryImpl;
 
 public class RepositoryFactory {
 
@@ -11,6 +12,7 @@ public class RepositoryFactory {
     private final BankRepository bankRepository = new BankRepositoryImpl();
     private final ClientRepository clientRepository = new ClientRepositoryImpl();
     private final AccountRepository accountRepository = new AccountRepositoryImpl();
+    private final TransactionRepository transactionRepository = new TransactionRepositoryImpl();
 
     private RepositoryFactory() {}
 
@@ -28,6 +30,10 @@ public class RepositoryFactory {
 
     public AccountRepository accountRepository() {
         return accountRepository;
+    }
+
+    public TransactionRepository transactionRepository() {
+        return transactionRepository;
     }
 
 }

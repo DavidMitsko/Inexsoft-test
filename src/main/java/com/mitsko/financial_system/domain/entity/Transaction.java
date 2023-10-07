@@ -90,6 +90,11 @@ public class Transaction extends BaseEntity {
 
         private Builder() {}
 
+        public Builder setUuid(String uuid) {
+            Transaction.this.setUuid(uuid);
+            return this;
+        }
+
         public Builder setTransactionTime(LocalDateTime time) {
             Transaction.this.transactionTime = time;
             return this;
