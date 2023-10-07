@@ -29,7 +29,7 @@ public class Controller {
         while (execute) {
             String request = input.nextLine();
 
-            String commandName = null;
+            String commandName;
             Command executionCommand;
 
             if (request.contains(PARAM_DELIMITER)) {
@@ -39,9 +39,10 @@ public class Controller {
                 commandName = request;
             }
 
-            executionCommand = commandProvider.getCommand(commandName);
-
             try {
+                executionCommand = commandProvider.getCommand(commandName);
+
+
                 executionCommand.execute(request, commandName);
 
                 if (commandName.equals(CommandName.EXIT.getCommand())) {
