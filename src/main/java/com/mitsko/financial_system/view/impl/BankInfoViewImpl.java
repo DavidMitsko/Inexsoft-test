@@ -1,6 +1,6 @@
 package com.mitsko.financial_system.view.impl;
 
-import com.mitsko.financial_system.domain.dto.bank.BankDto;
+import com.mitsko.financial_system.domain.dto.BankDto;
 import com.mitsko.financial_system.view.View;
 
 import java.util.List;

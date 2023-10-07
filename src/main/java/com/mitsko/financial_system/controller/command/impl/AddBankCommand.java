@@ -2,7 +2,7 @@ package com.mitsko.financial_system.controller.command.impl;
 
 import com.mitsko.financial_system.controller.command.Command;
 import com.mitsko.financial_system.controller.converter.Converter;
-import com.mitsko.financial_system.domain.dto.bank.BankDto;
+import com.mitsko.financial_system.domain.dto.BankDto;
 import com.mitsko.financial_system.exception.ValidationException;
 import com.mitsko.financial_system.service.BankService;
 import com.mitsko.financial_system.service.ServiceFactory;

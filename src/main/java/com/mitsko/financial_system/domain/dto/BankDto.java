@@ -1,4 +1,4 @@
-package com.mitsko.financial_system.domain.dto.bank;
+package com.mitsko.financial_system.domain.dto;
 
 public class BankDto {
 

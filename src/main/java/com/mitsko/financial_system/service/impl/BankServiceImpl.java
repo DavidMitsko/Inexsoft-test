@@ -1,6 +1,6 @@
 package com.mitsko.financial_system.service.impl;
 
-import com.mitsko.financial_system.domain.dto.bank.BankDto;
+import com.mitsko.financial_system.domain.dto.BankDto;
 import com.mitsko.financial_system.domain.entity.Bank;
 import com.mitsko.financial_system.exception.ValidationException;
 import com.mitsko.financial_system.repository.BankRepository;
