@@ -1,6 +1,6 @@
 package com.mitsko.financial_system.controller.converter;
 
-import com.mitsko.financial_system.domain.dto.bank.BankDto;
+import com.mitsko.financial_system.domain.dto.BankDto;
 import com.mitsko.financial_system.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
