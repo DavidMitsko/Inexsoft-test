@@ -15,6 +15,21 @@ public class Client extends BaseEntity {
 
     private ClientType clientType;
 
+    public Client(String name, String surname, Integer age, ClientType clientType) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.clientType = clientType;
+    }
+
+    public Client(String uuid, String name, String surname, Integer age, ClientType clientType) {
+        super(uuid);
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.clientType = clientType;
+    }
+
     public String getName() {
         return name;
     }
