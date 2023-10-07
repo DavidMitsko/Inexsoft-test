@@ -1,6 +1,8 @@
 package com.mitsko.financial_system.controller.converter;
 
 import com.mitsko.financial_system.domain.dto.BankDto;
+import com.mitsko.financial_system.domain.dto.ClientDto;
+import com.mitsko.financial_system.domain.enums.ClientType;
 import com.mitsko.financial_system.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,28 @@ public class Converter {
             parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
 
             dto.setLegalEntitiesCommission(Integer.parseInt(parameters));
+
+            return dto;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new ValidationException(e.getMessage());
+        }
+    }
+
+    public static ClientDto getClientDto(String parameters) throws ValidationException {
+        try {
+            ClientDto dto = new ClientDto();
+
+            dto.setName(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER)));
+            parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+            dto.setSurname(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER)));
+            parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+            dto.setAge(Integer.parseInt(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
+            parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+            dto.setClientType(ClientType.valueOf(parameters));
 
             return dto;
         } catch (Exception e) {
