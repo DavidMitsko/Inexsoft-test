@@ -16,6 +16,14 @@ public class Account extends BaseEntity {
 
     private final Currency currency;
 
+    public Account(String uuid, BigDecimal balance, String clientUuid, String bankUuid, Currency currency) {
+        super(uuid);
+        this.balance = balance;
+        this.clientUuid = clientUuid;
+        this.bankUuid = bankUuid;
+        this.currency = currency;
+    }
+
     public Account(BigDecimal balance, String clientUuid, String bankUuid, Currency currency) {
         this.balance = balance;
         this.clientUuid = clientUuid;
