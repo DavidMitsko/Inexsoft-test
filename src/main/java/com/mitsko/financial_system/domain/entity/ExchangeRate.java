@@ -14,6 +14,19 @@ public class ExchangeRate extends BaseEntity {
 
     private BigDecimal rate;
 
+    public ExchangeRate(Currency firstCurrency, Currency secondCurrency, BigDecimal rate) {
+        this.firstCurrency = firstCurrency;
+        this.secondCurrency = secondCurrency;
+        this.rate = rate;
+    }
+
+    public ExchangeRate(String uuid, Currency firstCurrency, Currency secondCurrency, BigDecimal rate) {
+        super(uuid);
+        this.firstCurrency = firstCurrency;
+        this.secondCurrency = secondCurrency;
+        this.rate = rate;
+    }
+
     public Currency getFirstCurrency() {
         return firstCurrency;
     }

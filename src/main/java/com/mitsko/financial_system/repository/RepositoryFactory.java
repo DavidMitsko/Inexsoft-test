@@ -1,9 +1,6 @@
 package com.mitsko.financial_system.repository;
 
-import com.mitsko.financial_system.repository.impl.AccountRepositoryImpl;
-import com.mitsko.financial_system.repository.impl.BankRepositoryImpl;
-import com.mitsko.financial_system.repository.impl.ClientRepositoryImpl;
-import com.mitsko.financial_system.repository.impl.TransactionRepositoryImpl;
+import com.mitsko.financial_system.repository.impl.*;
 
 public class RepositoryFactory {
 
@@ -13,6 +10,7 @@ public class RepositoryFactory {
     private final ClientRepository clientRepository = new ClientRepositoryImpl();
     private final AccountRepository accountRepository = new AccountRepositoryImpl();
     private final TransactionRepository transactionRepository = new TransactionRepositoryImpl();
+    private final ExchangeRateRepository exchangeRateRepository = new ExchangeRateRepositoryImpl();
 
     private RepositoryFactory() {}
 
@@ -34,6 +32,10 @@ public class RepositoryFactory {
 
     public TransactionRepository transactionRepository() {
         return transactionRepository;
+    }
+
+    public ExchangeRateRepository exchangeRateRepository() {
+        return exchangeRateRepository;
     }
 
 }

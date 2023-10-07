@@ -4,7 +4,6 @@ public enum Currency {
 
     DOLLAR,
     EURO,
-    RUBEL,
-    POUND
+    BYN
 
 }
