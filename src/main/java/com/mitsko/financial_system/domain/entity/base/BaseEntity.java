@@ -6,6 +6,10 @@ public class BaseEntity {
 
     private String uuid;
 
+    public BaseEntity(String uuid) {
+        this.uuid = uuid;
+    }
+
     public BaseEntity() {
         this.uuid = UUID.randomUUID().toString();
     }

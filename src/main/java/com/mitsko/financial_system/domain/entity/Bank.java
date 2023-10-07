@@ -12,6 +12,19 @@ public class Bank extends BaseEntity {
 
     private Integer legalEntitiesCommission;
 
+    public Bank(String name, Integer individualsCommission, Integer legalEntitiesCommission) {
+        this.name = name;
+        this.individualsCommission = individualsCommission;
+        this.legalEntitiesCommission = legalEntitiesCommission;
+    }
+
+    public Bank(String uuid, String name, Integer individualsCommission, Integer legalEntitiesCommission) {
+        super(uuid);
+        this.name = name;
+        this.individualsCommission = individualsCommission;
+        this.legalEntitiesCommission = legalEntitiesCommission;
+    }
+
     public String getName() {
         return name;
     }
