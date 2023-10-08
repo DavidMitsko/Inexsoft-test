@@ -4,6 +4,7 @@ import com.mitsko.financialsystem.domain.dto.base.BaseDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class TransactionDto extends BaseDto {
 
@@ -55,5 +56,18 @@ public class TransactionDto extends BaseDto {
 
     public void setCommission(BigDecimal commission) {
         this.commission = commission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransactionDto that = (TransactionDto) o;
+        return transactionTime.equals(that.transactionTime) && senderAccountUuid.equals(that.senderAccountUuid) && recipientAccountUuid.equals(that.recipientAccountUuid) && amount.equals(that.amount) && commission.equals(that.commission);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactionTime, senderAccountUuid, recipientAccountUuid, amount, commission);
     }
 }

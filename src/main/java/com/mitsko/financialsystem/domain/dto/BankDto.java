@@ -2,6 +2,8 @@ package com.mitsko.financialsystem.domain.dto;
 
 import com.mitsko.financialsystem.domain.dto.base.BaseDto;
 
+import java.util.Objects;
+
 public class BankDto extends BaseDto {
 
     private String name;
@@ -41,5 +43,18 @@ public class BankDto extends BaseDto {
 
     public void setLegalEntitiesCommission(Integer legalEntitiesCommission) {
         this.legalEntitiesCommission = legalEntitiesCommission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankDto bankDto = (BankDto) o;
+        return name.equals(bankDto.name) && individualsCommission.equals(bankDto.individualsCommission) && legalEntitiesCommission.equals(bankDto.legalEntitiesCommission);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, individualsCommission, legalEntitiesCommission);
     }
 }

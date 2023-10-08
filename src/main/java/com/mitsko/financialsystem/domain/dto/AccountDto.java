@@ -3,6 +3,7 @@ package com.mitsko.financialsystem.domain.dto;
 import com.mitsko.financialsystem.domain.enums.Currency;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class AccountDto {
 
@@ -44,5 +45,18 @@ public class AccountDto {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountDto that = (AccountDto) o;
+        return balance.equals(that.balance) && clientUuid.equals(that.clientUuid) && bankUuid.equals(that.bankUuid) && currency == that.currency;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(balance, clientUuid, bankUuid, currency);
     }
 }

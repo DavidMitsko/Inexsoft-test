@@ -3,6 +3,8 @@ package com.mitsko.financialsystem.domain.dto;
 import com.mitsko.financialsystem.domain.dto.base.BaseDto;
 import com.mitsko.financialsystem.domain.enums.ClientType;
 
+import java.util.Objects;
+
 public class ClientDto extends BaseDto {
 
     private String name;
@@ -43,5 +45,18 @@ public class ClientDto extends BaseDto {
 
     public void setClientType(ClientType clientType) {
         this.clientType = clientType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClientDto clientDto = (ClientDto) o;
+        return name.equals(clientDto.name) && surname.equals(clientDto.surname) && age.equals(clientDto.age) && clientType == clientDto.clientType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, age, clientType);
     }
 }
