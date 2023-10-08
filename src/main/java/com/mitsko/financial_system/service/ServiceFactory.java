@@ -1,9 +1,6 @@
 package com.mitsko.financial_system.service;
 
-import com.mitsko.financial_system.service.impl.AccountServiceImpl;
-import com.mitsko.financial_system.service.impl.BankServiceImpl;
-import com.mitsko.financial_system.service.impl.ClientServiceImpl;
-import com.mitsko.financial_system.service.impl.ExchangeRateServiceImpl;
+import com.mitsko.financial_system.service.impl.*;
 
 public class ServiceFactory {
 
@@ -13,6 +10,7 @@ public class ServiceFactory {
     private final ClientService clientService = new ClientServiceImpl();
     private final AccountService accountService = new AccountServiceImpl();
     private final ExchangeRateService exchangeRateService = new ExchangeRateServiceImpl();
+    private final TransactionService transactionService = new TransactionServiceImpl();
 
     public static ServiceFactory getInstance() {
         return instance;
@@ -32,6 +30,10 @@ public class ServiceFactory {
 
     public ExchangeRateService exchangeRateService() {
         return exchangeRateService;
+    }
+
+    public TransactionService transactionService() {
+        return transactionService;
     }
 
 

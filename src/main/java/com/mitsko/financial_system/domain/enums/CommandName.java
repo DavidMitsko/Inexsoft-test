@@ -9,7 +9,9 @@ public enum CommandName {
     CREATE_ACCOUNT("create_account", "Create account for client. Parameters: client uuid, bank uuid, currency, amount."),
     GET_CLIENTS_ACCOUNTS("accounts", "Get information about all clients accounts. Parameters: client uuid."),
     HELP("help", "Show all commands."),
-    GET_EXCHANGE_RATE("exchange_rate", "Show all exchange rates.");
+    GET_EXCHANGE_RATE("exchange_rate", "Show all exchange rates."),
+    TRANSACTION("transaction", "Make transaction between 2 accounts. Parameters: sender account uuid," +
+            "recipient account uuid, amount");
 
     private final String command;
 

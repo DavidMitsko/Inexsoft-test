@@ -18,6 +18,9 @@ public class Transaction extends BaseEntity {
 
     private BigDecimal commission;
 
+    private Transaction() {
+    }
+
     public LocalDateTime getTransactionTime() {
         return transactionTime;
     }

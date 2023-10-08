@@ -3,6 +3,7 @@ package com.mitsko.financial_system.controller.converter;
 import com.mitsko.financial_system.domain.dto.AccountDto;
 import com.mitsko.financial_system.domain.dto.BankDto;
 import com.mitsko.financial_system.domain.dto.ClientDto;
+import com.mitsko.financial_system.domain.dto.TransactionDto;
 import com.mitsko.financial_system.domain.enums.ClientType;
 import com.mitsko.financial_system.domain.enums.Currency;
 import com.mitsko.financial_system.exception.ValidationException;
@@ -72,6 +73,25 @@ public class Converter {
             parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
 
             dto.setBalance(new BigDecimal(parameters));
+
+            return dto;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new ValidationException(e.getMessage());
+        }
+    }
+
+    public static TransactionDto getTransactionDto(String parameters) {
+        try {
+            TransactionDto dto = new TransactionDto();
+
+            dto.setSenderAccountUuid(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER)));
+            parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+            dto.setRecipientAccountUuid(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER)));
+            parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+            dto.setAmount(new BigDecimal(parameters));
 
             return dto;
         } catch (Exception e) {
