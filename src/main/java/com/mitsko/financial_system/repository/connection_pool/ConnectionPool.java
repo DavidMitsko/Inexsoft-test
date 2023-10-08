@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -26,6 +27,8 @@ public class ConnectionPool {
     private String password;
     private int poolSize;
 
+    private HashMap<String, Connection> transactionalConnections;
+
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConnectionQueue;
 
@@ -40,6 +43,8 @@ public class ConnectionPool {
             poolSize = Integer.parseInt(manager.getValue(DBConstants.DB_POOL_SIZE));
 
             initPoolData();
+
+            transactionalConnections = new HashMap<>();
 
             logger.info("Init connection pool");
         } catch (ConnectionPoolException | IOException ex) {
@@ -72,6 +77,22 @@ public class ConnectionPool {
 
     public void dispose() {
         clearConnectionQueue();
+    }
+
+    public void addConnectionToTransaction(Connection connection, String transactionId) {
+        transactionalConnections.put(transactionId, connection);
+    }
+
+    public Connection takeTransactionalConnection(String transactionId) {
+        if (transactionalConnections.containsKey(transactionId)) {
+            return transactionalConnections.get(transactionId);
+        } else {
+            return takeConnection();
+        }
+    }
+
+    public void closeTransactionalConnection(String transactionId) {
+        transactionalConnections.remove(transactionId);
     }
 
     public Connection takeConnection() throws ConnectionPoolException {

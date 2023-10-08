@@ -11,7 +11,7 @@ public interface AccountRepository {
 
     Optional<Account> getByUuid(String uuid);
 
-    void updateByUuid(Account account, String uuid);
+    void updateByUuid(Account account, String uuid, boolean transactional, String transactionId, boolean lastAction);
 
     void deleteByUuid(String uuid);
 

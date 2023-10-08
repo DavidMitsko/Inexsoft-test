@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TransactionRepository {
 
-    void save(Transaction transaction);
+    void save(Transaction transaction, boolean transactional, String transactionId, boolean lastAction);
 
     Optional<Transaction> getByUuid(String uuid);
 

@@ -76,9 +76,10 @@ public class TransactionServiceImpl implements TransactionService {
         senderAccount.setBalance(senderAccount.getBalance().subtract(dto.getAmount()));
         recipientAccount.setBalance(recipientAccount.getBalance().add(amount));
 
-        transactionRepository.save(transaction);
-        accountRepository.updateByUuid(senderAccount, dto.getSenderAccountUuid());
-        accountRepository.updateByUuid(recipientAccount, dto.getRecipientAccountUuid());
+        String transactionId = UUID.randomUUID().toString();
+        transactionRepository.save(transaction, true, transactionId, false);
+        accountRepository.updateByUuid(senderAccount, dto.getSenderAccountUuid(), true, transactionId, false);
+        accountRepository.updateByUuid(recipientAccount, dto.getRecipientAccountUuid(), true, transactionId, true);
     }
 
     @Override

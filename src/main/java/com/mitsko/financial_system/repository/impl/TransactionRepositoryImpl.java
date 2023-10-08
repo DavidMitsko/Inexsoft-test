@@ -23,12 +23,17 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
-    public void save(Transaction transaction) {
+    public void save(Transaction transaction, boolean transactional, String transactionId, boolean lastAction) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
-            connection = connectionPool.takeConnection();
+            if (transactional) {
+                connection = connectionPool.takeTransactionalConnection(transactionId);
+                connection.setAutoCommit(false);
+            } else {
+                connection = connectionPool.takeConnection();
+            }
             preparedStatement = connection.prepareStatement(CREATE_NEW_TRANSACTION);
 
             preparedStatement.setString(1, transaction.getUuid());
@@ -44,8 +49,34 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                     transaction.getRecipientAccountUuid());
         } catch (SQLException | ConnectionPoolException ex) {
             logger.error(ex.getMessage());
+            if (transactional) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    connectionPool.closeTransactionalConnection(transactionId);
+                    connectionPool.closeConnection(connection, preparedStatement);
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
         } finally {
-            connectionPool.closeConnection(connection, preparedStatement);
+            if (!transactional) {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } else {
+                try {
+                    if (lastAction && connection.getAutoCommit()) {
+                        connection.commit();
+                        connection.setAutoCommit(true);
+                        connectionPool.closeTransactionalConnection(transactionId);
+                        connectionPool.closeConnection(connection, preparedStatement);
+                    } else {
+                        connectionPool.addConnectionToTransaction(connection, transactionId);
+                        preparedStatement.close();
+                    }
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
         }
     }
 
