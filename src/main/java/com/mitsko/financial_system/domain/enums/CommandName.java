@@ -5,10 +5,11 @@ public enum CommandName {
     ADD_NEW_BANK("add_bank", "Create new bank in app. Parameters: name, individuals commission (percent value)," +
             " legal entities commission (percent value)."),
     EXIT("exit", "Finish program."),
-    CREATE_NEW_CLIENT("add_client", "Create new client. Parameters: name, surname, age (>0), client type (INDIVIDUAL/LEGAL_ENTITY)"),
-    CREATE_ACCOUNT("create_account", "Create account for client. Parameters: client uuid, bank uuid, currency, amount"),
-    GET_CLIENTS_ACCOUNTS("accounts", "Get information about all clients accounts. Parameters: client uuid"),
-    HELP("help", "Show all commands");
+    CREATE_NEW_CLIENT("add_client", "Create new client. Parameters: name, surname, age (>0), client type (INDIVIDUAL/LEGAL_ENTITY)."),
+    CREATE_ACCOUNT("create_account", "Create account for client. Parameters: client uuid, bank uuid, currency, amount."),
+    GET_CLIENTS_ACCOUNTS("accounts", "Get information about all clients accounts. Parameters: client uuid."),
+    HELP("help", "Show all commands."),
+    GET_EXCHANGE_RATE("exchange_rate", "Show all exchange rates.");
 
     private final String command;
 
