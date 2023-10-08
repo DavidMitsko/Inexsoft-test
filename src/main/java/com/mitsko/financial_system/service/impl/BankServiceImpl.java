@@ -55,10 +55,12 @@ public class BankServiceImpl implements BankService {
         List<Account> accounts = accountRepository.getAllByBankUuid(uuid);
 
         String transactionId = UUID.randomUUID().toString();
-        accounts.forEach(account -> transactionRepository.deleteByAccountUuid(account.getUuid(),
-                true, transactionId, false));
+        accounts.forEach(account -> {
+            transactionRepository.deleteByAccountUuid(account.getUuid(),
+                    true, transactionId, false);
+            accountRepository.deleteByUuid(account.getUuid(), true, transactionId, false);
+        });
 
-        accountRepository.deleteAllByBank(uuid, true, transactionId, false);
         bankRepository.deleteByUuid(uuid, true, transactionId, true);
     }
 

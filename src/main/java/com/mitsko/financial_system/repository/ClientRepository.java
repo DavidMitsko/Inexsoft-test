@@ -12,6 +12,6 @@ public interface ClientRepository {
 
     void updateByUuid(Client bank, String uuid);
 
-    void deleteByUuid(String uuid);
+    void deleteByUuid(String uuid, boolean transactional, String transactionId, boolean lastAction);
 
 }

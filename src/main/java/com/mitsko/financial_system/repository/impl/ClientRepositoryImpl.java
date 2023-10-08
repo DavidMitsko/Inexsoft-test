@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static com.mitsko.financial_system.constant.repository.AccountRepositoryConstants.DELETE_BY_UUID;
 import static com.mitsko.financial_system.constant.repository.ClientRepositoryConstants.*;
 
 public class ClientRepositoryImpl implements ClientRepository {
@@ -99,22 +100,55 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public void deleteByUuid(String uuid) {
+    public void deleteByUuid(String uuid, boolean transactional, String transactionId, boolean lastAction) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
-            connection = connectionPool.takeConnection();
+            if (transactional) {
+                connection = connectionPool.takeTransactionalConnection(transactionId);
+                connection.setAutoCommit(false);
+            } else {
+                connection = connectionPool.takeConnection();
+            }
+
             preparedStatement = connection.prepareStatement(DELETE_BY_UUID);
 
             preparedStatement.setString(1, uuid);
+
             preparedStatement.executeUpdate();
 
-            logger.info("Delete client with uuid: {}", uuid);
+            logger.info("Delete accounts with id: {}", uuid);
         } catch (SQLException | ConnectionPoolException ex) {
             logger.error(ex.getMessage());
+            if (transactional) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    connectionPool.closeTransactionalConnection(transactionId);
+                    connectionPool.closeConnection(connection, preparedStatement);
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
         } finally {
-            connectionPool.closeConnection(connection, preparedStatement);
+            if (!transactional) {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } else {
+                try {
+                    if (lastAction && connection.getAutoCommit()) {
+                        connection.commit();
+                        connection.setAutoCommit(true);
+                        connectionPool.closeTransactionalConnection(transactionId);
+                        connectionPool.closeConnection(connection, preparedStatement);
+                    } else {
+                        connectionPool.addConnectionToTransaction(connection, transactionId);
+                        preparedStatement.close();
+                    }
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
         }
     }
 

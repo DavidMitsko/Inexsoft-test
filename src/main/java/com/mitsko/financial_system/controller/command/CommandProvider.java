@@ -28,6 +28,7 @@ public class CommandProvider {
         repository.put(CommandName.TRANSACTION, new TransactionCommand());
         repository.put(CommandName.GET_TRANSACTIONS, new TransactionInfoCommand());
         repository.put(CommandName.DELETE_BANK, new DeleteBankCommand());
+        repository.put(CommandName.DELETE_CLIENT, new DeleteClientCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

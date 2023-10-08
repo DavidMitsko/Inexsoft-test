@@ -14,7 +14,8 @@ public enum CommandName {
             "recipient account uuid, amount"),
     GET_TRANSACTIONS("get_transactions", "Get information about all clients transactions. Parameters: client uuid," +
             " start time (optional), end time (optional)"),
-    DELETE_BANK("delete_bank", "Delete bank. Parameter: bank uuid");
+    DELETE_BANK("delete_bank", "Delete bank. Parameter: bank uuid"),
+    DELETE_CLIENT("delete_client", "Delete client. Parameter: client uuid");
 
     private final String command;
 

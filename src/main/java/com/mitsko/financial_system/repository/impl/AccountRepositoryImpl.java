@@ -132,7 +132,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void deleteAllByBank(String uuid, boolean transactional, String transactionId, boolean lastAction) {
+    public void deleteByUuid(String uuid, boolean transactional, String transactionId, boolean lastAction) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -144,13 +144,13 @@ public class AccountRepositoryImpl implements AccountRepository {
                 connection = connectionPool.takeConnection();
             }
 
-            preparedStatement = connection.prepareStatement(DELETE_ALL_BY_BANK);
+            preparedStatement = connection.prepareStatement(DELETE_BY_UUID);
 
             preparedStatement.setString(1, uuid);
 
             preparedStatement.executeUpdate();
 
-            logger.info("Delete accounts by bank id: {}", uuid);
+            logger.info("Delete accounts with id: {}", uuid);
         } catch (SQLException | ConnectionPoolException ex) {
             logger.error(ex.getMessage());
             if (transactional) {
@@ -181,26 +181,6 @@ public class AccountRepositoryImpl implements AccountRepository {
                     logger.error(e.getMessage());
                 }
             }
-        }
-    }
-
-    @Override
-    public void deleteByUuid(String uuid) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connection = connectionPool.takeConnection();
-            preparedStatement = connection.prepareStatement(DELETE_BY_UUID);
-
-            preparedStatement.setString(1, uuid);
-            preparedStatement.executeUpdate();
-
-            logger.info("Delete account with uuid: {}", uuid);
-        } catch (SQLException | ConnectionPoolException ex) {
-            logger.error(ex.getMessage());
-        } finally {
-            connectionPool.closeConnection(connection, preparedStatement);
         }
     }
 

@@ -7,4 +7,6 @@ public interface ClientService {
 
     void add(ClientDto dto) throws ValidationException;
 
+    void delete(String clientUuid);
+
 }
