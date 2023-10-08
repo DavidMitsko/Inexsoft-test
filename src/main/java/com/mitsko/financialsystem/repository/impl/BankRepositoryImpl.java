@@ -75,7 +75,7 @@ public class BankRepositoryImpl implements BankRepository {
     }
 
     @Override
-    public List<Bank> list() {
+    public List<Bank> getAll() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

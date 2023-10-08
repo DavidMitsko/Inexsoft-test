@@ -43,7 +43,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public List<BankDto> getAll() {
-        return bankRepository.list().stream().map(this::toDto).collect(Collectors.toList());
+        return bankRepository.getAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
     @Override

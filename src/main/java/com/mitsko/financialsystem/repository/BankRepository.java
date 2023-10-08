@@ -15,6 +15,6 @@ public interface BankRepository {
 
     void deleteByUuid(String uuid, boolean transactional, String transactionId, boolean lastAction);
 
-    List<Bank> list();
+    List<Bank> getAll();
 
 }

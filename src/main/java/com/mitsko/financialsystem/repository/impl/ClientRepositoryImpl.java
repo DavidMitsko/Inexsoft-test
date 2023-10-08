@@ -1,5 +1,6 @@
 package com.mitsko.financialsystem.repository.impl;
 
+import com.mitsko.financialsystem.domain.entity.Bank;
 import com.mitsko.financialsystem.domain.entity.Client;
 import com.mitsko.financialsystem.domain.enums.ClientType;
 import com.mitsko.financialsystem.exception.ConnectionPoolException;
@@ -12,9 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
-import static com.mitsko.financialsystem.constant.repository.AccountRepositoryConstants.DELETE_BY_UUID;
 import static com.mitsko.financialsystem.constant.repository.ClientRepositoryConstants.*;
 
 public class ClientRepositoryImpl implements ClientRepository {
@@ -152,6 +154,28 @@ public class ClientRepositoryImpl implements ClientRepository {
         }
     }
 
+    @Override
+    public List<Client> getAll() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        LinkedList<Client> list = new LinkedList<>();
+
+        try {
+            connection = connectionPool.takeConnection();
+            preparedStatement = connection.prepareStatement(GET_ALL);
+
+            resultSet = preparedStatement.executeQuery();
+
+            compileList(resultSet, list);
+        } catch (SQLException | ConnectionPoolException ex) {
+            logger.error(ex.getMessage());
+        } finally {
+            connectionPool.closeConnection(connection, preparedStatement, resultSet);
+        }
+        return list;
+    }
+
     private Client toEntity(ResultSet resultSet) throws SQLException {
         String uuid = resultSet.getString(1);
         String name = resultSet.getString(2);
@@ -160,6 +184,12 @@ public class ClientRepositoryImpl implements ClientRepository {
         ClientType clientType = ClientType.valueOf(resultSet.getString(5));
 
         return new Client(uuid, name, surname, age, clientType);
+    }
+
+    private void compileList(ResultSet resultSet, LinkedList<Client> list) throws SQLException {
+        while (resultSet.next()) {
+            list.add(toEntity(resultSet));
+        }
     }
 
 }

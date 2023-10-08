@@ -28,6 +28,7 @@ public class ViewProvider {
         repository.put(CommandName.HELP, new HelpInfoViewImpl());
         repository.put(CommandName.GET_EXCHANGE_RATE, new ExchangeRateViewImpl());
         repository.put(CommandName.GET_TRANSACTIONS, new TransactionInfoViewImpl());
+        repository.put(CommandName.GET_CLIENTS, new ClientInfoViewImpl());
     }
 
     public View getView(String name) throws ValidationException {

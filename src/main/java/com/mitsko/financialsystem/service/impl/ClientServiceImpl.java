@@ -13,6 +13,7 @@ import com.mitsko.financialsystem.service.util.Validator;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -51,6 +52,32 @@ public class ClientServiceImpl implements ClientService {
         });
 
         clientRepository.deleteByUuid(clientUuid, true, transactionId, true);
+    }
 
+    @Override
+    public List<ClientDto> getAllClients() {
+        return clientRepository.getAll().stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateClient(ClientDto dto, String clientUuid) {
+        if (Validator.validateAge(dto.getAge()) || !Validator.validateUuid(clientUuid)) {
+            throw new ValidationException("Wrong age");
+        }
+
+        Client client = new Client(dto.getName(), dto.getSurname(), dto.getAge(), dto.getClientType());
+        clientRepository.updateByUuid(client, clientUuid);
+    }
+
+    private ClientDto toDto(Client client) {
+        ClientDto dto = new ClientDto();
+
+        dto.setUuid(client.getUuid());
+        dto.setName(client.getName());
+        dto.setSurname(client.getSurname());
+        dto.setAge(client.getAge());
+        dto.setClientType(client.getClientType());
+
+        return dto;
     }
 }
