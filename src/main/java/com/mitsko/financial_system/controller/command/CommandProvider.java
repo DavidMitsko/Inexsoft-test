@@ -27,6 +27,7 @@ public class CommandProvider {
         repository.put(CommandName.GET_EXCHANGE_RATE, new ExchangeRateInfoCommand());
         repository.put(CommandName.TRANSACTION, new TransactionCommand());
         repository.put(CommandName.GET_TRANSACTIONS, new TransactionInfoCommand());
+        repository.put(CommandName.DELETE_BANK, new DeleteBankCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

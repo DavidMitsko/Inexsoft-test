@@ -132,6 +132,59 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public void deleteAllByBank(String uuid, boolean transactional, String transactionId, boolean lastAction) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            if (transactional) {
+                connection = connectionPool.takeTransactionalConnection(transactionId);
+                connection.setAutoCommit(false);
+            } else {
+                connection = connectionPool.takeConnection();
+            }
+
+            preparedStatement = connection.prepareStatement(DELETE_ALL_BY_BANK);
+
+            preparedStatement.setString(1, uuid);
+
+            preparedStatement.executeUpdate();
+
+            logger.info("Delete accounts by bank id: {}", uuid);
+        } catch (SQLException | ConnectionPoolException ex) {
+            logger.error(ex.getMessage());
+            if (transactional) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    connectionPool.closeTransactionalConnection(transactionId);
+                    connectionPool.closeConnection(connection, preparedStatement);
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        } finally {
+            if (!transactional) {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } else {
+                try {
+                    if (lastAction && connection.getAutoCommit()) {
+                        connection.commit();
+                        connection.setAutoCommit(true);
+                        connectionPool.closeTransactionalConnection(transactionId);
+                        connectionPool.closeConnection(connection, preparedStatement);
+                    } else {
+                        connectionPool.addConnectionToTransaction(connection, transactionId);
+                        preparedStatement.close();
+                    }
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
     public void deleteByUuid(String uuid) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -163,6 +216,30 @@ public class AccountRepositoryImpl implements AccountRepository {
             preparedStatement = connection.prepareStatement(GET_ALL_ACCOUNTS_BY_CLIENT);
 
             preparedStatement.setString(1, clientUuid);
+
+            resultSet = preparedStatement.executeQuery();
+
+            compileList(resultSet, list);
+        } catch (SQLException | ConnectionPoolException ex) {
+            logger.error(ex.getMessage());
+        } finally {
+            connectionPool.closeConnection(connection, preparedStatement, resultSet);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Account> getAllByBankUuid(String uuid) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        LinkedList<Account> list = new LinkedList<>();
+
+        try {
+            connection = connectionPool.takeConnection();
+            preparedStatement = connection.prepareStatement(GET_ALL_BY_BANK);
+
+            preparedStatement.setString(1, uuid);
 
             resultSet = preparedStatement.executeQuery();
 

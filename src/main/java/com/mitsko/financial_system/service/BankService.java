@@ -11,4 +11,6 @@ public interface BankService {
 
     List<BankDto> getAll();
 
+    void deleteByUuid(String uuid);
+
 }

@@ -17,4 +17,8 @@ public interface AccountRepository {
 
     List<Account> getAllByClientUuid(String clientUuid);
 
+    List<Account> getAllByBankUuid(String uuid);
+
+    void deleteAllByBank(String uuid, boolean transactional, String transactionId, boolean lastAction);
+
 }

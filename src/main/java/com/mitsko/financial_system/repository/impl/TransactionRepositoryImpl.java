@@ -81,6 +81,57 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
+    public void deleteByAccountUuid(String accountUuid, boolean transactional, String transactionId, boolean lastAction) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            if (transactional) {
+                connection = connectionPool.takeTransactionalConnection(transactionId);
+                connection.setAutoCommit(false);
+            } else {
+                connection = connectionPool.takeConnection();
+            }
+            preparedStatement = connection.prepareStatement(DELETE_BY_ACCOUNT);
+
+            preparedStatement.setString(1, accountUuid);
+            preparedStatement.setString(2, accountUuid);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException ex) {
+            logger.error(ex.getMessage());
+            if (transactional) {
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    connectionPool.closeTransactionalConnection(transactionId);
+                    connectionPool.closeConnection(connection, preparedStatement);
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        } finally {
+            if (!transactional) {
+                connectionPool.closeConnection(connection, preparedStatement);
+            } else {
+                try {
+                    if (lastAction && connection.getAutoCommit()) {
+                        connection.commit();
+                        connection.setAutoCommit(true);
+                        connectionPool.closeTransactionalConnection(transactionId);
+                        connectionPool.closeConnection(connection, preparedStatement);
+                    } else {
+                        connectionPool.addConnectionToTransaction(connection, transactionId);
+                        preparedStatement.close();
+                    }
+                } catch (SQLException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
     public Optional<Transaction> getByUuid(String uuid) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -13,7 +13,7 @@ public interface BankRepository {
 
     void updateByUuid(Bank bank, String uuid);
 
-    void deleteByUuid(String uuid);
+    void deleteByUuid(String uuid, boolean transactional, String transactionId, boolean lastAction);
 
     List<Bank> list();
 

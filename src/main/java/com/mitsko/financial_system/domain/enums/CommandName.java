@@ -13,7 +13,8 @@ public enum CommandName {
     TRANSACTION("transaction", "Make transaction between 2 accounts. Parameters: sender account uuid," +
             "recipient account uuid, amount"),
     GET_TRANSACTIONS("get_transactions", "Get information about all clients transactions. Parameters: client uuid," +
-            " start time (optional), end time (optional)");
+            " start time (optional), end time (optional)"),
+    DELETE_BANK("delete_bank", "Delete bank. Parameter: bank uuid");
 
     private final String command;
 

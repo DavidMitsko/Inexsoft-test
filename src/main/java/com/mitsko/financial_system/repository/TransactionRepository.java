@@ -16,4 +16,6 @@ public interface TransactionRepository {
 
     List<Transaction> getBySenderUuid(String clientUuid);
 
+    void deleteByAccountUuid(String accountUuid, boolean transactional, String transactionId, boolean lastAction);
+
 }
