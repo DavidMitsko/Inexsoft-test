@@ -66,6 +66,7 @@ public class BankServiceImpl implements BankService {
 
     private BankDto toDto(Bank bank) {
         BankDto dto = new BankDto();
+        dto.setUuid(bank.getUuid());
         dto.setName(bank.getName());
         dto.setIndividualsCommission(bank.getIndividualsCommission());
         dto.setLegalEntitiesCommission(bank.getLegalEntitiesCommission());
