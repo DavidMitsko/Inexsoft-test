@@ -43,8 +43,8 @@ public class AccountRepositoryImpl implements AccountRepository {
             preparedStatement.executeUpdate();
 
             logger.info("Created {} client account", account.getClientUuid());
-        } catch (SQLException | ConnectionPoolException ex) {
-            logger.error(ex.getMessage());
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e.getMessage());
         } finally {
             connectionPool.closeConnection(connection, preparedStatement);
         }
@@ -200,8 +200,8 @@ public class AccountRepositoryImpl implements AccountRepository {
             resultSet = preparedStatement.executeQuery();
 
             compileList(resultSet, list);
-        } catch (SQLException | ConnectionPoolException ex) {
-            logger.error(ex.getMessage());
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e.getMessage());
         } finally {
             connectionPool.closeConnection(connection, preparedStatement, resultSet);
         }
@@ -224,8 +224,8 @@ public class AccountRepositoryImpl implements AccountRepository {
             resultSet = preparedStatement.executeQuery();
 
             compileList(resultSet, list);
-        } catch (SQLException | ConnectionPoolException ex) {
-            logger.error(ex.getMessage());
+        } catch (SQLException | ConnectionPoolException e) {
+            logger.error(e.getMessage());
         } finally {
             connectionPool.closeConnection(connection, preparedStatement, resultSet);
         }

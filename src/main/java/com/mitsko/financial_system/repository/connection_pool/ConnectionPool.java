@@ -47,8 +47,8 @@ public class ConnectionPool {
             transactionalConnections = new HashMap<>();
 
             logger.info("Init connection pool");
-        } catch (ConnectionPoolException | IOException ex) {
-            logger.error("Cannot init pool data: " + ex);
+        } catch (ConnectionPoolException | IOException e) {
+            logger.error("Cannot init pool data: " + e);
         }
     }
 
@@ -69,9 +69,9 @@ public class ConnectionPool {
                 connectionQueue.add(pooledConnection);
             }
 
-        } catch (ClassNotFoundException | SQLException ex) {
-            logger.error(ex.getMessage());
-            throw new ConnectionPoolException(ex);
+        } catch (ClassNotFoundException | SQLException e) {
+            logger.error(e.getMessage());
+            throw new ConnectionPoolException(e);
         }
     }
 
@@ -101,8 +101,8 @@ public class ConnectionPool {
         try {
             connection = connectionQueue.take();
             givenAwayConnectionQueue.add(connection);
-        } catch (InterruptedException ex) {
-            throw new ConnectionPoolException("Error connecting to the data source.", ex);
+        } catch (InterruptedException e) {
+            throw new ConnectionPoolException("Error connecting to the data source.", e);
         }
         return connection;
     }

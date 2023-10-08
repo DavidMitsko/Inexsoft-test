@@ -3,16 +3,13 @@ package com.mitsko.financial_system.controller;
 import com.mitsko.financial_system.controller.command.Command;
 import com.mitsko.financial_system.controller.command.CommandProvider;
 import com.mitsko.financial_system.domain.enums.CommandName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mitsko.financial_system.view.impl.ExceptionView;
 
 import java.util.Scanner;
 
 import static com.mitsko.financial_system.constant.Constants.PARAM_DELIMITER;
 
 public class Controller {
-
-    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
     private static final Controller instance = new Controller();
 
@@ -41,15 +38,14 @@ public class Controller {
 
             try {
                 executionCommand = commandProvider.getCommand(commandName);
-
-
                 executionCommand.execute(request, commandName);
 
                 if (commandName.equals(CommandName.EXIT.getCommand())) {
                     setExecute(false);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (RuntimeException e) {
+                ExceptionView view = new ExceptionView();
+                view.printResult(e);
             }
 
         }

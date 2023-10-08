@@ -41,7 +41,7 @@ public class CommandProvider {
                     .findFirst().orElseThrow(() -> new ValidationException("Wrong command"));
 
             command = repository.get(commandName);
-        } catch (IllegalArgumentException | NullPointerException | ValidationException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             logger.error(e.getMessage());
             throw new ValidationException(e);
         }

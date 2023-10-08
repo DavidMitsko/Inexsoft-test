@@ -31,7 +31,7 @@ public class Converter {
             return dto;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("wrong parameters. " + e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class Converter {
             return dto;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("wrong parameters. " + e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class Converter {
             return dto;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("wrong parameters. " + e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class Converter {
             return dto;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("wrong parameters. " + e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class Converter {
             return dto;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("wrong parameters. " + e.getMessage());
         }
     }
 
