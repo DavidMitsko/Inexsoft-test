@@ -4,6 +4,7 @@ import com.mitsko.financial_system.domain.enums.CommandName;
 import com.mitsko.financial_system.exception.ValidationException;
 import com.mitsko.financial_system.view.impl.AccountViewImpl;
 import com.mitsko.financial_system.view.impl.BankInfoViewImpl;
+import com.mitsko.financial_system.view.impl.HelpInfoViewImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,7 @@ public class ViewProvider {
     public ViewProvider(){
         repository.put(CommandName.GET_ALL_BANKS, new BankInfoViewImpl());
         repository.put(CommandName.GET_CLIENTS_ACCOUNTS, new AccountViewImpl());
+        repository.put(CommandName.HELP, new HelpInfoViewImpl());
     }
 
     public View getView(String name) throws ValidationException {

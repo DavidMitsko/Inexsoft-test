@@ -7,7 +7,8 @@ public enum CommandName {
     EXIT("exit", "Finish program."),
     CREATE_NEW_CLIENT("add_client", "Create new client. Parameters: name, surname, age (>0), client type (INDIVIDUAL/LEGAL_ENTITY)"),
     CREATE_ACCOUNT("create_account", "Create account for client. Parameters: client uuid, bank uuid, currency, amount"),
-    GET_CLIENTS_ACCOUNTS("accounts", "Get information about all clients accounts. Parameters: client uuid");
+    GET_CLIENTS_ACCOUNTS("accounts", "Get information about all clients accounts. Parameters: client uuid"),
+    HELP("help", "Show all commands");
 
     private final String command;
 
