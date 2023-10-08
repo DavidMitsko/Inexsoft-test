@@ -7,6 +7,6 @@ public class ExchangeRateRepositoryConstants {
     public static final String GET_ALL_RATES = "SELECT * FROM exchange_rate";
     public static final String UPDATE_RATE_BY_UUID = "UPDATE exchange_rate SET rate = ? " +
             "WHERE uuid = ?";
-    public static final String DELETE_BY_UUID = "DELETE exchange_rate WHERE uuid = ?";
+    public static final String DELETE_BY_UUID = "DELETE FROM exchange_rate WHERE uuid = ?";
 
 }

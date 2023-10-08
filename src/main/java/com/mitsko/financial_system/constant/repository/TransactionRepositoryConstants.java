@@ -9,5 +9,7 @@ public class TransactionRepositoryConstants {
             "sender_account_uuid = ? AND transaction_time > ? AND transaction_time < ?";
     public static final String GET_ALL_TRANSACTIONS_BY_SENDER = "SELECT * FROM transaction WHERE " +
             "sender_account_uuid = ?";
+    public static final String DELETE_BY_ACCOUNT = "DELETE FROM transaction WHERE sender_account_uuid = ? " +
+            "OR recipient_account_uuid = ?";
 
 }
