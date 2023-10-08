@@ -15,6 +15,6 @@ public interface AccountRepository {
 
     void deleteByUuid(String uuid);
 
-    List<Account> list(String clientUuid);
+    List<Account> getAllByClientUuid(String clientUuid);
 
 }

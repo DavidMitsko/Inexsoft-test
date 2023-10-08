@@ -1,6 +1,6 @@
 package com.mitsko.financial_system.exception;
 
-public class ConnectionPoolException extends Exception {
+public class ConnectionPoolException extends RuntimeException {
 
     public ConnectionPoolException() {
     }

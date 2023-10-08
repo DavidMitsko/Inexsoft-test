@@ -22,6 +22,7 @@ public class CommandProvider {
         repository.put(CommandName.EXIT, new ExitCommand());
         repository.put(CommandName.CREATE_NEW_CLIENT, new AddClientCommand());
         repository.put(CommandName.CREATE_ACCOUNT, new CreateAccountCommand());
+        repository.put(CommandName.GET_CLIENTS_ACCOUNTS, new GetAccountsListByClientCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

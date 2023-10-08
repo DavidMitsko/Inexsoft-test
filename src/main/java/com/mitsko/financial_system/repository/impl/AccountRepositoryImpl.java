@@ -120,7 +120,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public List<Account> list(String clientUuid) {
+    public List<Account> getAllByClientUuid(String clientUuid) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

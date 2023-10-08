@@ -1,6 +1,8 @@
 package com.mitsko.financial_system.domain.dto;
 
-public class BankDto {
+import com.mitsko.financial_system.domain.dto.base.BaseDto;
+
+public class BankDto extends BaseDto {
 
     private String name;
 

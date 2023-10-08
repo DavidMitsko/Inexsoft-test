@@ -1,8 +1,9 @@
 package com.mitsko.financial_system.domain.dto;
 
+import com.mitsko.financial_system.domain.dto.base.BaseDto;
 import com.mitsko.financial_system.domain.enums.ClientType;
 
-public class ClientDto {
+public class ClientDto extends BaseDto {
 
     private String name;
 
