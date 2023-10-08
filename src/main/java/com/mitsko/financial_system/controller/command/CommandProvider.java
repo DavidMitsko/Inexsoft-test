@@ -1,9 +1,6 @@
 package com.mitsko.financial_system.controller.command;
 
-import com.mitsko.financial_system.controller.command.impl.AddBankCommand;
-import com.mitsko.financial_system.controller.command.impl.AddClientCommand;
-import com.mitsko.financial_system.controller.command.impl.ExitCommand;
-import com.mitsko.financial_system.controller.command.impl.GetBankInfoCommand;
+import com.mitsko.financial_system.controller.command.impl.*;
 import com.mitsko.financial_system.domain.enums.CommandName;
 import com.mitsko.financial_system.exception.ValidationException;
 import org.slf4j.Logger;
@@ -24,6 +21,7 @@ public class CommandProvider {
         repository.put(CommandName.ADD_NEW_BANK, new AddBankCommand());
         repository.put(CommandName.EXIT, new ExitCommand());
         repository.put(CommandName.CREATE_NEW_CLIENT, new AddClientCommand());
+        repository.put(CommandName.CREATE_ACCOUNT, new CreateAccountCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

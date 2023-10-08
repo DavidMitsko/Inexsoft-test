@@ -1,5 +1,7 @@
 package com.mitsko.financial_system.service.util;
 
+import java.math.BigDecimal;
+
 public class Validator {
 
     public static boolean validatePercent(int value) {
@@ -8,6 +10,10 @@ public class Validator {
 
     public static boolean validateAge(int age) {
         return age <= 0;
+    }
+
+    public static boolean validateAmount(BigDecimal amount) {
+        return amount.compareTo(new BigDecimal(0)) < 0;
     }
 
 }
