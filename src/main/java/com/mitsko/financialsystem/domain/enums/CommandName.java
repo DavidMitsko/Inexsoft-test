@@ -17,7 +17,9 @@ public enum CommandName {
     DELETE_BANK("delete_bank", "Delete bank. Parameter: bank uuid"),
     DELETE_CLIENT("delete_client", "Delete client. Parameter: client uuid"),
     GET_CLIENTS("get_clients", "Get information about clients"),
-    EDIT_CLIENT("edit_client", "Change info about client. Parameters: uuid, name, surname, age (>0), client type (INDIVIDUAL/LEGAL_ENTITY)");
+    EDIT_CLIENT("edit_client", "Change info about client. Parameters: name, surname, age (>0), client type (INDIVIDUAL/LEGAL_ENTITY), uuid"),
+    EDIT_BANK("edit_bank", "Change bank info. Parameters: name, individuals commission (percent value)," +
+            " legal entities commission (percent value), uuid");
 
     private final String command;
 

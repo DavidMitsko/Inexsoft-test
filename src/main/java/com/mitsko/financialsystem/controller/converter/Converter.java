@@ -26,7 +26,11 @@ public class Converter {
             dto.setIndividualsCommission(Integer.parseInt(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
             parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
 
-            dto.setLegalEntitiesCommission(Integer.parseInt(parameters));
+            if (parameters.contains(PARAM_DELIMITER)) {
+                dto.setLegalEntitiesCommission(Integer.parseInt(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
+            } else {
+                dto.setLegalEntitiesCommission(Integer.parseInt(parameters));
+            }
 
             return dto;
         } catch (Exception e) {
@@ -48,7 +52,11 @@ public class Converter {
             dto.setAge(Integer.parseInt(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
             parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
 
-            dto.setClientType(ClientType.valueOf(parameters));
+            if (parameters.contains(PARAM_DELIMITER)) {
+                dto.setClientType(ClientType.valueOf(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
+            } else {
+                dto.setClientType(ClientType.valueOf(parameters));
+            }
 
             return dto;
         } catch (Exception e) {

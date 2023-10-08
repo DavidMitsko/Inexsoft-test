@@ -64,6 +64,18 @@ public class BankServiceImpl implements BankService {
         bankRepository.deleteByUuid(uuid, true, transactionId, true);
     }
 
+    @Override
+    public void updateBankInfo(BankDto bankDto, String uuid) {
+        if (!Validator.validateUuid(uuid)) {
+            throw new ValidationException("Invalid uuid");
+        }
+
+        Bank bank = new Bank(bankDto.getName(), bankDto.getIndividualsCommission(),
+                bankDto.getLegalEntitiesCommission());
+
+        bankRepository.updateByUuid(bank, uuid);
+    }
+
     private BankDto toDto(Bank bank) {
         BankDto dto = new BankDto();
         dto.setUuid(bank.getUuid());

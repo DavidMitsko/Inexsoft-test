@@ -90,6 +90,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             preparedStatement.setString(2, client.getSurname());
             preparedStatement.setInt(3, client.getAge());
             preparedStatement.setString(4, client.getClientType().name());
+            preparedStatement.setString(5, uuid);
 
             preparedStatement.executeUpdate();
 
@@ -138,7 +139,7 @@ public class ClientRepositoryImpl implements ClientRepository {
                 connectionPool.closeConnection(connection, preparedStatement);
             } else {
                 try {
-                    if (lastAction && connection.getAutoCommit()) {
+                    if (lastAction && !connection.getAutoCommit()) {
                         connection.commit();
                         connection.setAutoCommit(true);
                         connectionPool.closeTransactionalConnection(transactionId);

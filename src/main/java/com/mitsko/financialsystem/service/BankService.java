@@ -13,4 +13,6 @@ public interface BankService {
 
     void deleteByUuid(String uuid);
 
+    void updateBankInfo(BankDto bankDto, String uuid);
+
 }

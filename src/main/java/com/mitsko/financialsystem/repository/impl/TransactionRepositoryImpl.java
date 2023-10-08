@@ -64,7 +64,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 connectionPool.closeConnection(connection, preparedStatement);
             } else {
                 try {
-                    if (lastAction && connection.getAutoCommit()) {
+                    if (lastAction && !connection.getAutoCommit()) {
                         connection.commit();
                         connection.setAutoCommit(true);
                         connectionPool.closeTransactionalConnection(transactionId);
@@ -115,7 +115,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 connectionPool.closeConnection(connection, preparedStatement);
             } else {
                 try {
-                    if (lastAction && connection.getAutoCommit()) {
+                    if (lastAction && !connection.getAutoCommit()) {
                         connection.commit();
                         connection.setAutoCommit(true);
                         connectionPool.closeTransactionalConnection(transactionId);
@@ -209,10 +209,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     private Transaction toEntity(ResultSet resultSet) throws SQLException {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return Transaction.builder()
                 .setUuid(resultSet.getString(1))
-                .setTransactionTime(LocalDateTime.parse(resultSet.getString(2), dateTimeFormatter))
+                .setTransactionTime(LocalDateTime.parse(resultSet.getString(2).substring(0, 19), dateTimeFormatter))
                 .setSenderAccountUuid(resultSet.getString(3))
                 .setRecipientAccountUuid(resultSet.getString(4))
                 .setAmount(resultSet.getBigDecimal(5))

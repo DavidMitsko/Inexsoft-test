@@ -31,6 +31,7 @@ public class CommandProvider {
         repository.put(CommandName.DELETE_CLIENT, new DeleteClientCommand());
         repository.put(CommandName.GET_CLIENTS, new ClientInfoCommand());
         repository.put(CommandName.EDIT_CLIENT, new EditClientInfoCommand());
+        repository.put(CommandName.EDIT_BANK, new EditBankInfoCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

@@ -24,6 +24,7 @@ public class Controller {
     public void run() {
         Scanner input = new Scanner(System.in);
         while (execute) {
+            System.out.println("Write your command:");
             String request = input.nextLine();
 
             String commandName;

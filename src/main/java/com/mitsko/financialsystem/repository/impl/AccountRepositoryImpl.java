@@ -90,10 +90,10 @@ public class AccountRepositoryImpl implements AccountRepository {
                 connection = connectionPool.takeConnection();
             }
 
-            preparedStatement = connection.prepareStatement(UPDATE_ACCOUNT_BALANCE_BY_CLIENT);
+            preparedStatement = connection.prepareStatement(UPDATE_ACCOUNT_BALANCE_BY_UUID);
 
             preparedStatement.setBigDecimal(1, account.getBalance());
-            preparedStatement.setString(2, account.getClientUuid());
+            preparedStatement.setString(2, account.getUuid());
 
             preparedStatement.executeUpdate();
 
@@ -115,7 +115,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                 connectionPool.closeConnection(connection, preparedStatement);
             } else {
                 try {
-                    if (lastAction && connection.getAutoCommit()) {
+                    if (lastAction && !connection.getAutoCommit()) {
                         connection.commit();
                         connection.setAutoCommit(true);
                         connectionPool.closeTransactionalConnection(transactionId);
@@ -168,7 +168,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                 connectionPool.closeConnection(connection, preparedStatement);
             } else {
                 try {
-                    if (lastAction && connection.getAutoCommit()) {
+                    if (lastAction && !connection.getAutoCommit()) {
                         connection.commit();
                         connection.setAutoCommit(true);
                         connectionPool.closeTransactionalConnection(transactionId);

@@ -13,7 +13,7 @@ public class ClientInfoViewImpl implements View<List<ClientDto>> {
 
         int i = 1;
         for (ClientDto dto : clientDtos) {
-            System.out.printf("%s. Uuid: %s. Name: %s. Surname: %s. Age: %s. Client type: %s",
+            System.out.printf("%s. Uuid: %s. Name: %s. Surname: %s. Age: %s. Client type: %s%n",
                     i, dto.getUuid(), dto.getName(), dto.getSurname(), dto.getAge(), dto.getClientType());
         }
     }

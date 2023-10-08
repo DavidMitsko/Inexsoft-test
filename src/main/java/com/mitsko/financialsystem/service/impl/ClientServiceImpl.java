@@ -61,8 +61,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void updateClient(ClientDto dto, String clientUuid) {
-        if (Validator.validateAge(dto.getAge()) || !Validator.validateUuid(clientUuid)) {
+        if (Validator.validateAge(dto.getAge())) {
             throw new ValidationException("Wrong age");
+        }
+        if (!Validator.validateUuid(clientUuid)) {
+            throw new ValidationException("Invalid uuid");
         }
 
         Client client = new Client(dto.getName(), dto.getSurname(), dto.getAge(), dto.getClientType());

@@ -8,7 +8,7 @@ public class AccountRepositoryConstants {
             "FROM account WHERE uuid = ?";
     public static final String GET_ALL_ACCOUNTS_BY_CLIENT = "SELECT uuid, balance, client_uuid, bank_uuid, currency " +
             "FROM account WHERE client_uuid = ?";
-    public static final String UPDATE_ACCOUNT_BALANCE_BY_CLIENT = "UPDATE account SET balance = ? WHERE client_uuid = ?";
+    public static final String UPDATE_ACCOUNT_BALANCE_BY_UUID = "UPDATE account SET balance = ? WHERE uuid = ?";
     public static final String DELETE_BY_UUID = "DELETE FROM account WHERE uuid = ?";
     public static final String GET_ALL_BY_BANK = "SELECT uuid, balance, client_uuid, bank_uuid, currency " +
             "FROM account WHERE bank_uuid = ?";

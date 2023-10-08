@@ -108,7 +108,7 @@ public class BankRepositoryImpl implements BankRepository {
             preparedStatement.setString(1, bank.getName());
             preparedStatement.setInt(2, bank.getIndividualsCommission());
             preparedStatement.setInt(3, bank.getLegalEntitiesCommission());
-            preparedStatement.setString(4, bank.getUuid());
+            preparedStatement.setString(4, uuid);
 
             preparedStatement.executeUpdate();
 
