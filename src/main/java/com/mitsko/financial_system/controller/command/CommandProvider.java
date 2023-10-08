@@ -26,6 +26,7 @@ public class CommandProvider {
         repository.put(CommandName.HELP, new HelpCommand());
         repository.put(CommandName.GET_EXCHANGE_RATE, new ExchangeRateInfoCommand());
         repository.put(CommandName.TRANSACTION, new TransactionCommand());
+        repository.put(CommandName.GET_TRANSACTIONS, new TransactionInfoCommand());
     }
 
     public Command getCommand(String name) throws ValidationException {

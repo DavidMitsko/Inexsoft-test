@@ -11,7 +11,9 @@ public enum CommandName {
     HELP("help", "Show all commands."),
     GET_EXCHANGE_RATE("exchange_rate", "Show all exchange rates."),
     TRANSACTION("transaction", "Make transaction between 2 accounts. Parameters: sender account uuid," +
-            "recipient account uuid, amount");
+            "recipient account uuid, amount"),
+    GET_TRANSACTIONS("get_transactions", "Get information about all clients transactions. Parameters: client uuid," +
+            " start time (optional), end time (optional)");
 
     private final String command;
 

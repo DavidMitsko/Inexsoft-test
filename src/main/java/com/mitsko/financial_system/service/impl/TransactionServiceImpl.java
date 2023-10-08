@@ -1,19 +1,26 @@
 package com.mitsko.financial_system.service.impl;
 
+import com.mitsko.financial_system.domain.dto.ClientDto;
 import com.mitsko.financial_system.domain.dto.TransactionDto;
+import com.mitsko.financial_system.domain.dto.TransactionResponseDto;
+import com.mitsko.financial_system.domain.dto.TransactionSearchDto;
 import com.mitsko.financial_system.domain.entity.*;
 import com.mitsko.financial_system.domain.enums.ClientType;
 import com.mitsko.financial_system.exception.EntityNotFoundException;
 import com.mitsko.financial_system.exception.ValidationException;
 import com.mitsko.financial_system.repository.*;
 import com.mitsko.financial_system.service.TransactionService;
+import com.mitsko.financial_system.service.util.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class TransactionServiceImpl implements TransactionService {
 
@@ -72,6 +79,74 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
         accountRepository.updateByUuid(senderAccount, dto.getSenderAccountUuid());
         accountRepository.updateByUuid(recipientAccount, dto.getRecipientAccountUuid());
+    }
+
+    @Override
+    public List<TransactionResponseDto> getTransactionByClient(TransactionSearchDto searchDto) {
+        if (!Validator.validateUuid(searchDto.getClientUuid())) {
+            throw new ValidationException("Invalid uuid");
+        }
+        Client senderClient = clientRepository.getByUuid(searchDto.getClientUuid())
+                .orElseThrow(() -> new EntityNotFoundException(String
+                        .format("Client with %s uuid can not be found", searchDto.getClientUuid())));
+
+        List<Account> accounts = accountRepository.getAllByClientUuid(senderClient.getUuid());
+
+        List<Transaction> transactions = new LinkedList<>();
+        if (searchDto.getStartTime() == null || searchDto.getEndTime() == null) {
+
+            for (Account account : accounts) {
+                transactions.addAll(transactionRepository.getBySenderUuid(account.getUuid()));
+            }
+
+        } else {
+            if (!Validator.validateDates(searchDto.getStartTime(), searchDto.getEndTime())) {
+                throw new ValidationException("Wrong dates");
+            }
+
+            for (Account account : accounts) {
+                transactions.addAll(transactionRepository.getBySenderUuidAndTransactionTimeBetween(account.getUuid(),
+                        searchDto.getStartTime(), searchDto.getEndTime()));
+            }
+        }
+
+        return transactions.stream().map(transaction -> {
+            Account recipientAccount = accountRepository.getByUuid(transaction.getRecipientAccountUuid())
+                    .orElseThrow(() -> new EntityNotFoundException(String
+                            .format("Account with %s uuid can not be found", transaction.getRecipientAccountUuid())));
+
+            Client recipientClient = clientRepository.getByUuid(recipientAccount.getClientUuid())
+                    .orElseThrow(() -> new EntityNotFoundException(String
+                            .format("Client with %s uuid can not be found", recipientAccount.getClientUuid())));
+
+            return toDto(transaction, senderClient, recipientClient);
+        }).collect(Collectors.toList());
+    }
+
+    private TransactionResponseDto toDto(Transaction transaction, Client sender, Client recipient) {
+        TransactionResponseDto dto = new TransactionResponseDto();
+
+        dto.setUuid(transaction.getUuid());
+        dto.setTransactionTime(transaction.getTransactionTime());
+        dto.setAmount(transaction.getAmount());
+        dto.setCommission(transaction.getCommission());
+
+        ClientDto senderDto = new ClientDto();
+        senderDto.setClientType(senderDto.getClientType());
+        senderDto.setName(sender.getName());
+        senderDto.setSurname(sender.getSurname());
+        senderDto.setAge(sender.getAge());
+
+        ClientDto recipientDto = new ClientDto();
+        recipientDto.setClientType(recipient.getClientType());
+        recipientDto.setName(recipient.getName());
+        recipientDto.setSurname(recipient.getSurname());
+        recipientDto.setAge(recipient.getAge());
+
+        dto.setSender(senderDto);
+        dto.setRecipient(recipientDto);
+
+        return dto;
     }
 
     private BigDecimal calculateAmountByCurrency(Account sender, Account recipient, BigDecimal amount) {

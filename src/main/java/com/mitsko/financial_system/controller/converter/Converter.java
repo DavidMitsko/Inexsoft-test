@@ -1,9 +1,6 @@
 package com.mitsko.financial_system.controller.converter;
 
-import com.mitsko.financial_system.domain.dto.AccountDto;
-import com.mitsko.financial_system.domain.dto.BankDto;
-import com.mitsko.financial_system.domain.dto.ClientDto;
-import com.mitsko.financial_system.domain.dto.TransactionDto;
+import com.mitsko.financial_system.domain.dto.*;
 import com.mitsko.financial_system.domain.enums.ClientType;
 import com.mitsko.financial_system.domain.enums.Currency;
 import com.mitsko.financial_system.exception.ValidationException;
@@ -11,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static com.mitsko.financial_system.constant.Constants.PARAM_DELIMITER;
 
@@ -92,6 +90,29 @@ public class Converter {
             parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
 
             dto.setAmount(new BigDecimal(parameters));
+
+            return dto;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new ValidationException(e.getMessage());
+        }
+    }
+
+    public static TransactionSearchDto getTransactionSearchDto(String parameters) {
+        try {
+            TransactionSearchDto dto = new TransactionSearchDto();
+
+            if (!parameters.contains(PARAM_DELIMITER)) {
+                dto.setClientUuid(parameters);
+            } else {
+                dto.setClientUuid(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER)));
+                parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+                dto.setStartTime(LocalDateTime.parse(parameters.substring(0, parameters.indexOf(PARAM_DELIMITER))));
+                parameters = parameters.substring(parameters.indexOf(PARAM_DELIMITER) + 1);
+
+                dto.setEndTime(LocalDateTime.parse(parameters));
+            }
 
             return dto;
         } catch (Exception e) {

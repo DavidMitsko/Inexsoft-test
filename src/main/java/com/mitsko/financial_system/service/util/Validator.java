@@ -1,6 +1,7 @@
 package com.mitsko.financial_system.service.util;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -22,6 +23,10 @@ public class Validator {
 
     public static boolean validateUuid(String uuid) {
         return UUID_REGEX.matcher(uuid).matches();
+    }
+
+    public static boolean validateDates(LocalDateTime startTime, LocalDateTime endTime) {
+        return startTime.isBefore(endTime);
     }
 
 }

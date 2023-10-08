@@ -2,10 +2,7 @@ package com.mitsko.financial_system.view;
 
 import com.mitsko.financial_system.domain.enums.CommandName;
 import com.mitsko.financial_system.exception.ValidationException;
-import com.mitsko.financial_system.view.impl.AccountViewImpl;
-import com.mitsko.financial_system.view.impl.BankInfoViewImpl;
-import com.mitsko.financial_system.view.impl.ExchangeRateViewImpl;
-import com.mitsko.financial_system.view.impl.HelpInfoViewImpl;
+import com.mitsko.financial_system.view.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +27,7 @@ public class ViewProvider {
         repository.put(CommandName.GET_CLIENTS_ACCOUNTS, new AccountViewImpl());
         repository.put(CommandName.HELP, new HelpInfoViewImpl());
         repository.put(CommandName.GET_EXCHANGE_RATE, new ExchangeRateViewImpl());
+        repository.put(CommandName.GET_TRANSACTIONS, new TransactionInfoViewImpl());
     }
 
     public View getView(String name) throws ValidationException {
